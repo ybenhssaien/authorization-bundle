@@ -2,6 +2,7 @@
   "name": "youssefbenhssaien/authorization-bundle",
   "type": "library",
   "description": "Symfony bundle to authorize entities properties",
+  "license": "MIT",
   "keywords": ["authorization", "entity", "property", "security", "isGranted"],
   "authors": [
     {

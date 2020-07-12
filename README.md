@@ -9,7 +9,7 @@ Installation
 -------------------------------
 1. Install with composer :
     ```shell
-    composer require https://github.com/youssefbenhssaien/authorization-bundle.git
+    composer require youssefbenhssaien/authorization-bundle
     ```
 1. Enable it in `config/bundles.php` :
     ```php
