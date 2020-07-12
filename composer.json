@@ -1,0 +1,28 @@
+{
+  "name": "youssefbenhssaien/authorization-bundle",
+  "type": "library",
+  "description": "Symfony bundle to authorize entities properties",
+  "keywords": ["authorization", "entity", "property", "security", "isGranted"],
+  "authors": [
+    {
+      "name": "Youssef BENHSSAIEN",
+      "email": "youssef.benhssaien@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=7.4.0",
+    "doctrine/annotations": "*",
+    "doctrine/orm": "2.*",
+    "doctrine/common": "2.*",
+    "symfony/console": "4.4.*",
+    "symfony/dependency-injection": "4.4.*",
+    "symfony/http-kernel": "4.4.*",
+    "symfony/config": "4.4.*",
+    "symfony/security-core": "4.4.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Ybenhssaien\\AuthorizationBundle\\": ""
+    }
+  }
+}

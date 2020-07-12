@@ -1,0 +1,21 @@
+services:
+    Ybenhssaien\AuthorizationBundle\AuthorizationMap:
+        class: 'Ybenhssaien\AuthorizationBundle\AuthorizationMap'
+        arguments: ['@doctrine.orm.default_configuration', '@annotations.reader']
+
+    ybenhssaien.authorization_map:
+        alias: Ybenhssaien\AuthorizationBundle\AuthorizationMap
+        public: true
+
+    Ybenhssaien\AuthorizationBundle\Service\AuthorizationService:
+        class: Ybenhssaien\AuthorizationBundle\Service\AuthorizationService
+        arguments: ['@security.helper', '@ybenhssaien.authorization_map']
+
+    ybenhssaien.authorization_service:
+        alias: Ybenhssaien\AuthorizationBundle\Service\AuthorizationService
+        public: true
+
+    Ybenhssaien\AuthorizationBundle\Voter\AuthorizationVoter:
+        class: Ybenhssaien\AuthorizationBundle\Voter\AuthorizationVoter
+        arguments: ['@ybenhssaien.authorization_service']
+        tags: ['security.voter']
