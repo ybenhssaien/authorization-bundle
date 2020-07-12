@@ -1,5 +1,5 @@
 {
-  "name": "youssefbenhssaien/authorization-bundle",
+  "name": "ybenhssaien/authorization-bundle",
   "type": "library",
   "description": "Symfony bundle to authorize entities properties",
   "license": "MIT",

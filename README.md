@@ -9,7 +9,7 @@ Installation
 -------------------------------
 1. Install with composer :
     ```shell
-    composer require youssefbenhssaien/authorization-bundle
+    composer require ybenhssaien/authorization-bundle
     ```
 1. Enable it in `config/bundles.php` :
     ```php
@@ -268,13 +268,13 @@ Contributing & bug report
 - Contribute : [fork][5] && create [pull request][6]
 
 -------------------------------
-@developed by [Youssef BENHSSAIEN](https://github.com/youssefbenhssaien)
+@developed by [Youssef BENHSSAIEN](https://github.com/ybenhssaien)
 
 [1]: https://github.com/symfony/symfony/blob/5.1/src/Symfony/Component/Security/Core/Authorization/AuthorizationChecker.php
 [2]: https://symfony.com/doc/current/security.html#access-control-in-templates
 [3]: https://www.doctrine-project.org/projects/doctrine-orm/en/2.8/tutorials/getting-started.html
-[4]: https://github.com/youssefbenhssaien/authorization-bundle/issues
-[5]: https://github.com/youssefbenhssaien/authorization-bundle/fork
-[6]: https://github.com/youssefbenhssaien/authorization-bundle/pulls
-[7]: https://github.com/youssefbenhssaien/authorization-bundle/master/Service/AuthorizationService.php
-[8]: https://github.com/youssefbenhssaien/authorization-bundle/master/AuthorizationMap.php
+[4]: https://github.com/ybenhssaien/authorization-bundle/issues
+[5]: https://github.com/ybenhssaien/authorization-bundle/fork
+[6]: https://github.com/ybenhssaien/authorization-bundle/pulls
+[7]: https://github.com/ybenhssaien/authorization-bundle/master/Service/AuthorizationService.php
+[8]: https://github.com/ybenhssaien/authorization-bundle/master/AuthorizationMap.php
