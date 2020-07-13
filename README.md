@@ -49,7 +49,7 @@ class Person
      * @ORM\Column(type="string", length=10)
      *
      * @Authorization(
-     *      "name" : "gender",
+     *      "name" : "gender_renamed",
      *      {
      *          "ROLE_HR" : {"read": true, "write": true},
      *          "ROLE_USER" : {"read": true, "write": false},
@@ -57,7 +57,7 @@ class Person
      *      }
      *  )
      */
-    private $sexe;
+    private $gender;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -115,9 +115,9 @@ class PersonType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        // "gender" is the name chosen for this property ("sexe" doesn't exist)
-        if ($this->security->isGranted('write', [Person::class, 'gender'])) {
-            $builder->add('sexe');
+        // "gender_renamed" is the name chosen for this property ("gender" doesn't exist)
+        if ($this->security->isGranted('write', [Person::class, 'gender_renamed'])) {
+            $builder->add('gender');
         }
 
         if ($this->security->isGranted('write', [Person::class, 'firstName'])) {
