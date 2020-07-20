@@ -42,22 +42,17 @@ class AuthorizationService
 
     public function canPerformActionOnData(string $property, string $entity, $action = 'read'): bool
     {
-        /* Si pas connecté => non autorisé */
+        /* If not conencted by default not authorized */
         if (\is_null($this->userRole)) {
             return false;
         }
 
-        /* Si admin toujours autorisé */
-        if ('ROLE_ADMIN' === $this->userRole) {
-            return true;
-        }
-
-        /* Retourner l'autorisation depuis l'authorizationMap si existe, false si n'exste pas */
+        /* Return authorization from map or false if not exists */
         return $this->authorizationMap->getMap()[$entity][$property][$this->userRole][$action] ?? false;
     }
 
     /**
-     * Vérifier si la propriété est déclarée.
+     * Check if property is declared
      */
     public function isPropertyExists(string $property, string $entity): bool
     {
