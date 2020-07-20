@@ -42,7 +42,7 @@ class AuthorizationService
 
     public function canPerformActionOnData(string $property, string $entity, $action = 'read'): bool
     {
-        /* If not conencted by default not authorized */
+        /* If not connected by default not authorized */
         if (\is_null($this->userRole)) {
             return false;
         }
