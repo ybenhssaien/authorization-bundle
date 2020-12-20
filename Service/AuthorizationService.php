@@ -3,12 +3,16 @@
 namespace Ybenhssaien\AuthorizationBundle\Service;
 
 use Symfony\Component\Security\Core\Security;
+use Ybenhssaien\AuthorizationBundle\Annotation\Authorization;
 use Ybenhssaien\AuthorizationBundle\AuthorizationMap;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Ybenhssaien\AuthorizationBundle\Exception\InvalidArgumentException;
+use Ybenhssaien\AuthorizationBundle\UserActiveRoleInterface;
 
 class AuthorizationService
 {
-    protected string $userRole;
+    protected array $roles = [];
+    protected ?string $activeRole = null;
     protected AuthorizationMap $authorizationMap;
 
     public function __construct(Security $security, AuthorizationMap $authorizationMap)
@@ -17,9 +21,11 @@ class AuthorizationService
             $security->getToken()
             && ($user = $security->getToken()->getUser()) instanceof UserInterface
         ) {
-            $this->userRole = \method_exists($user, 'getCurrentRole')
-                ? $user->getCurrentRole()
-                : \current($user->getRoles());
+            $this->roles = $user->getRoles();
+
+            if ($user instanceof UserActiveRoleInterface) {
+                $this->activeRole = $user->getActiveRole();
+            }
         }
 
         $this->authorizationMap = $authorizationMap;
@@ -42,25 +48,56 @@ class AuthorizationService
 
     public function canPerformActionOnData(string $property, string $entity, $action = 'read'): bool
     {
-        /* Si pas connecté => non autorisé */
-        if (\is_null($this->userRole)) {
+        if (!\in_array($action, Authorization::ACTIONS)) {
+            throw new InvalidArgumentException(sprintf(
+                'The action "%s" is not supported, please choose one of the supported actions [%s]',
+                $action,
+                implode(', ', Authorization::ACTIONS)
+            ));
+        }
+
+        /* If not connected => not authorized */
+        if (! \count($this->roles)) {
             return false;
         }
 
-        /* Si admin toujours autorisé */
-        if ('ROLE_ADMIN' === $this->userRole) {
-            return true;
-        }
-
-        /* Retourner l'autorisation depuis l'authorizationMap si existe, false si n'exste pas */
-        return $this->authorizationMap->getMap()[$entity][$property][$this->userRole][$action] ?? false;
+        /* Returns authorizations map if exist, false otherwise */
+        return $this->activeRole
+            ? $this->isActionAuthorizedForRoleByProperty($property, $entity, $this->activeRole, $action)
+            : $this->isActionAuthorizedForRolesByProperty($property, $entity, $this->roles, $action);
     }
 
     /**
-     * Vérifier si la propriété est déclarée.
+     * Check if the property is mapped for authorization
      */
     public function isPropertyExists(string $property, string $entity): bool
     {
         return isset($this->authorizationMap->getMap()[$entity][$property]);
+    }
+
+    protected function getAuthorizationMapForProperty(string $property, string $entity): array
+    {
+        return $this->authorizationMap->getMap()[$entity][$property] ?? [];
+    }
+
+    protected function getAuthorizationMapByRoleForProperty(string $property, string $entity, string $role): bool
+    {
+        return $this->getAuthorizationMapForProperty($property, $entity)[$role] ?? [];
+    }
+
+    protected function isActionAuthorizedForRoleByProperty(string $property, string $entity, string $role, string $action): bool
+    {
+        return $this->getAuthorizationMapByRoleForProperty($property, $entity, $role)[$action] ?? false;
+    }
+
+    protected function isActionAuthorizedForRolesByProperty(string $property, string $entity, array $roles, string $action): bool
+    {
+        foreach ($roles as $role) {
+            if ($this->isActionAuthorizedForRoleByProperty($property, $entity, $role, $action)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

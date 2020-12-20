@@ -1,7 +1,7 @@
 The AuthorizationBundle
 =======================
 
-The AuthorizationBundle manage authorizations on properties of an entity, they can be either readable or writable or
+The AuthorizationBundle manages authorizations on properties of an entity, they can be either readable or writable or
  both by some roles and not others, every property of an entity can be authorized or not for reading or writing using
   [isGranted()][1] in PHP files or Twig version [is_granted()][2].
 
